@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" style="background-color:#030712">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amit Kumar | Performance Marketing</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  @keyframes bg{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+  body{background:linear-gradient(-45deg,#030712,#0b0f19,#030712,#111827);background-size:300% 300%;animation:bg 20s ease infinite;color:#f3f4f6;font-family:'Inter',sans-serif;overflow-x:hidden;overscroll-behavior:none}
+  .font-serif{font-family:'Playfair Display',serif}
+  ::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:#030712}::-webkit-scrollbar-thumb{background:#38bdf8;border-radius:10px}::-webkit-scrollbar-thumb:hover{background:#0ea5e9}
+
+  .cursor-key{position:fixed;top:0;left:0;pointer-events:none;z-index:10000;transform:translate(-50%,-50%);font-size:28px;opacity:0;scale:.5;transition:opacity .3s,scale .3s cubic-bezier(.175,.885,.32,1.275);display:none}
+  @media(min-width:768px){.cursor-key{display:block}}
+
+  .glass-nav{background:rgba(3,7,18,.7);backdrop-filter:blur(15px);border-bottom:1px solid rgba(255,255,255,.05);transition:background .3s}
+
+  .pop-glow{transition:all .3s ease-out;display:inline-flex;align-items:center}
+  .pop-glow:hover{transform:scale(1.05);color:#fff!important;text-shadow:0 0 15px rgba(56,189,248,.8),0 0 30px rgba(56,189,248,.5)}
+
+  /* lock -> unlock swap */
+  .unlock-wrapper{position:relative;display:inline-flex;align-items:center;justify-content:center;width:1.5em;height:1.5em}
+  .unlock-wrapper span{position:absolute;transition:all .3s cubic-bezier(.175,.885,.32,1.275)}
+  .icon-lock{opacity:1;transform:scale(1)}.icon-unlock{opacity:0;transform:scale(.5)}
+  .group:hover .icon-lock{opacity:0;transform:scale(1.2)}.group:hover .icon-unlock{opacity:1;transform:scale(1)}
+  .big-lock{transition:transform .4s cubic-bezier(.175,.885,.32,1.275),filter .4s}
+  .group:hover .big-lock{transform:scale(1.3);filter:drop-shadow(0 0 25px rgba(56,189,248,.8))}
+
+  .skill-pill{background:rgba(255,255,255,.03);backdrop-filter:blur(8px);transition:all .4s cubic-bezier(.175,.885,.32,1.275);cursor:pointer}
+  .skill-pill:hover{transform:translateY(-8px) scale(1.05) rotate(2deg);background:#38bdf8;color:#030712;font-weight:600;box-shadow:0 15px 30px rgba(56,189,248,.3)}
+
+  /* holographic certs */
+  .cert-glass{background:rgba(11,15,25,.85);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.08);box-shadow:0 20px 40px rgba(0,0,0,.8),inset 0 0 15px rgba(56,189,248,.08)}
+  @keyframes scan{0%{transform:translateY(-100%);opacity:0}50%{opacity:1}100%{transform:translateY(500%);opacity:0}}
+  .scan{position:absolute;top:0;left:0;right:0;height:10%;background:linear-gradient(to bottom,transparent,rgba(56,189,248,.4),transparent);animation:scan 3s linear infinite;z-index:20;pointer-events:none}
+  .touch-pan-y{touch-action:pan-y pinch-zoom}
+
+  /* sticky folder stack */
+  .project-wrapper{position:sticky;margin-bottom:15vh;will-change:filter,transform;z-index:var(--z)}
+  @media(min-width:768px){.project-wrapper{margin-bottom:25vh}}
+  .folder{background:#080c14;border:1px solid rgba(255,255,255,.06);border-top:1px solid rgba(56,189,248,.3);border-radius:1.5rem;box-shadow:0 -15px 30px rgba(0,0,0,.8);overflow:hidden}
+  .folder-head{height:6vh;min-height:50px;background:linear-gradient(to right,#0f172a,#080c14);border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:center;padding:0 1.5rem}
+  .ph{background:transparent;display:grid;place-items:center;color:#9ca3af;font-size:.8rem;letter-spacing:.2em;text-transform:uppercase}
+</style>
+</head>
+<body class="antialiased selection:bg-[#38bdf8] selection:text-[#030712]">
+
+<div class="cursor-key">🔑</div>
+
+<!-- NAV -->
+<nav class="glass-nav fixed top-0 w-full z-50 px-6 md:px-12 py-5 flex justify-between items-center hero-nav opacity-0">
+  <a href="#" class="font-serif text-xl font-bold tracking-widest text-white">N.C<span class="text-[#38bdf8]">.</span></a>
+  <div class="hidden md:flex gap-10 text-xs font-semibold tracking-[.2em] uppercase text-gray-400">
+    <a href="#about" class="pop-glow">About</a>
+    <a href="#skills" class="pop-glow">Skills</a>
+    <a href="#certs" class="pop-glow">Credentials</a>
+    <a href="#projects" class="pop-glow">Works</a>
+  </div>
+  <a href="#contact" class="group pop-glow gap-2 text-white text-xs font-bold uppercase tracking-widest">
+    <span class="unlock-wrapper text-base"><span class="icon-lock">🔒</span><span class="icon-unlock">🔓</span></span> Let's Talk
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="min-h-screen w-full relative flex items-center justify-center pt-24 pb-12 overflow-hidden px-6 md:px-20" style="perspective:1000px">
+  <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#0f172a] via-transparent to-transparent -z-20 opacity-40"></div>
+  <div class="w-full max-w-7xl flex flex-col md:flex-row items-center justify-between gap-12 z-10 relative mt-10 md:mt-0">
+    <div class="w-full md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left z-20">
+      <p class="hero-tagline text-[#38bdf8] tracking-[.3em] text-[10px] md:text-xs uppercase font-bold mb-4">
+Performance Marketing • SEO • SMM •  Frontend Development</p>
+      <h1 class="hero-title font-serif text-6xl md:text-[5.5rem] lg:text-[7rem] font-bold text-white tracking-tighter leading-[.9] mb-6">Amit <br><span class="italic text-[#38bdf8]">Kumar</span></h1>
+     <p class="hero-desc text-gray-400 text-sm md:text-base leading-relaxed max-w-md mb-12">I specialize in SEO and Performance Marketing, creating data-driven strategies to improve online visibility, optimize campaigns, and drive business growth.</p>
+      <div class="hero-btn">
+        <a href="./amitkumar.pdf" download="amitkumar.pdf" class="group flex items-center gap-3 px-8 py-4 rounded-full border border-[#38bdf8]/40 bg-[#38bdf8]/10 hover:bg-[#38bdf8] hover:text-[#030712] text-white text-xs md:text-sm font-bold tracking-[.2em] uppercase transition-all duration-300 shadow-[0_0_20px_rgba(56,189,248,.15)] hover:shadow-[0_0_30px_rgba(56,189,248,.5)] backdrop-blur-sm">
+          <span>Download Resume</span>
+          <span class="unlock-wrapper text-lg"><span class="icon-lock">🔒</span><span class="icon-unlock">🔓</span></span>
+        </a>
+      </div>
+    </div>
+    <div class="w-full md:w-1/2 flex justify-center md:justify-end z-10">
+      <div class="hero-img relative w-[85%] max-w-[320px] md:max-w-[400px] aspect-[3/4] rounded-t-[1000px] rounded-b-[20px] overflow-hidden ph">
+        <img
+          src="images/amit.png"
+          alt="Nitin Chauhan"
+          class="absolute inset-0 w-full h-full object-cover"
+        />
+        <div class="absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t from-[#030712] to-transparent z-20"></div>
+      </div>
+    </div>
+  </div>
+  <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center z-30 animate-bounce cursor-pointer opacity-60 hover:opacity-100 transition-opacity" onclick="document.getElementById('about').scrollIntoView()">
+    <span class="text-[9px] tracking-[.2em] uppercase mb-2 text-white">Scroll Down</span>
+    <div class="w-[1px] h-12 bg-gradient-to-b from-[#38bdf8] to-transparent"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="py-24 px-6 md:px-20 relative z-30">
+  <div class="max-w-4xl mx-auto md:text-center p-8 md:p-16 rounded-[2.5rem] bg-[#080c14]/60 border border-white/5 fade shadow-2xl">
+  <p class="text-[#38bdf8] tracking-[.2em] uppercase text-xs font-semibold mb-8">About Me</p>
+<p class="text-2xl md:text-5xl leading-[1.2] text-white font-medium mb-8 tracking-tight">Focused on <span class="italic font-serif text-[#38bdf8]">performance</span>, driven by results.</p>
+<p class="text-base md:text-lg leading-relaxed text-gray-400 font-light max-w-2xl mx-auto">Digital Marketer specializing in SEO and Performance Marketing, passionate about data-driven strategies, campaign optimization, and business growth.</p>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="py-32 px-4 md:px-12 relative z-30 bg-[#030712] border-b border-[#38bdf8]/10">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-20 fade">
+      <p class="text-[#38bdf8] tracking-[.2em] uppercase text-xs font-semibold mb-4">The Arsenal</p>
+      <h3 class="font-serif text-4xl md:text-6xl text-white tracking-tighter">Everything I bring to the <span class="italic text-[#38bdf8]">Table</span></h3>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="skill-grid"></div>
+  </div>
+</section>
+
+<!-- CERTS -->
+<section id="certs" class="py-20 md:py-24 px-4 md:px-20 relative bg-[#030712] border-b border-white/5 overflow-hidden flex flex-col items-center">
+  <div class="absolute w-[80vw] h-[80vw] bg-[#38bdf8]/5 blur-[150px] rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+  <div class="text-center z-30 mb-8 md:mb-12 fade">
+    <p class="text-[#38bdf8] tracking-[.3em] uppercase text-xs font-bold mb-2 md:mb-4">Official Credentials</p>
+    <h3 class="font-serif text-4xl md:text-7xl text-white tracking-tighter">Google <span class="italic text-[#38bdf8]">Certified</span></h3>
+  </div>
+  <div class="relative w-[95vw] md:w-[75vw] lg:w-[65vw] h-[70vh] md:h-[50vh] z-20 mx-auto touch-pan-y" id="cert-stack" style="perspective:1500px">
+    <div class="absolute top-0 left-0 w-full h-full" id="cert1">
+      <div class="tilt w-full h-full cert-glass rounded-[2rem] flex flex-col md:flex-row overflow-hidden">
+        <div class="w-full md:w-[45%] h-[40%] md:h-full p-4 md:p-6">
+          <div class="w-full h-full rounded-xl overflow-hidden relative border border-white/10 bg-black ph">
+            <div class="scan"></div>
+            <img
+              src="images/googleadscertificate.jpeg"
+              alt="Certificate"
+              class="absolute inset-0 w-full h-full object-contain z-10"
+            >
+          </div>
+        </div>
+        <div class="w-full md:w-[55%] h-[60%] md:h-full p-5 md:p-10 flex flex-col justify-center">
+          <div class="flex flex-col items-start mb-3">
+            <img src="https://www.gstatic.com/images/branding/product/1x/googleg_48dp.png"
+                 alt="Google"
+                 class="w-10 h-10 object-contain mb-3">
+            <h4 class="text-xl md:text-4xl font-serif text-white mb-2 leading-tight">
+              Google Ads Search
+              <br>
+              <span class="italic text-gray-400 text-base md:text-xl">Certification</span>
+            </h4>
+          </div>
+          <p class="text-gray-400 text-[11px] md:text-sm mb-4 mt-2 max-w-sm leading-relaxed">Certified in planning, managing, and optimizing Google Search campaigns focused on traffic quality, lead generation, and campaign performance.</p>
+          <a href="#" class="pop-glow text-[#38bdf8] font-bold text-[10px] md:text-xs uppercase tracking-widest w-max mt-auto">Verify Credential ↗</a>
+        </div>
+      </div>
+    </div>
+    <div class="absolute top-0 left-0 w-full h-full" id="cert2">
+      <div class="tilt w-full h-full cert-glass rounded-[2rem] flex flex-col md:flex-row overflow-hidden">
+        <div class="w-full md:w-[45%] h-[40%] md:h-full p-4 md:p-6">
+          <div class="w-full h-full rounded-xl overflow-hidden relative border border-white/10 bg-black ph">
+            <div class="scan"></div>
+            <img
+              src="images/googleanalytics.jpeg"
+              alt="Certificate"
+              class="absolute inset-0 w-full h-full object-contain z-10"
+            >
+          </div>
+        </div>
+        <div class="w-full md:w-[55%] h-[60%] md:h-full p-5 md:p-10 flex flex-col justify-center">
+          <div class="flex flex-col items-start mb-3">
+            <img
+              src="https://www.gstatic.com/images/branding/product/1x/googleg_48dp.png"
+              alt="Google"
+              class="w-10 h-10 object-contain mb-3"
+            >
+            <h4 class="text-xl md:text-4xl font-serif text-white mb-2 leading-tight">
+              Google Analytics 4
+              <br>
+              <span class="italic text-gray-400 text-base md:text-xl">Certification</span>
+            </h4>
+          </div>
+          <p class="text-gray-400 text-[11px] md:text-sm mb-4 mt-2 max-w-sm leading-relaxed">Validated expertise in analyzing user behavior, tracking campaign performance, and using GA4 insights to support data-driven marketing decisions.</p>
+          <a href="#" class="pop-glow text-[#38bdf8] font-bold text-[10px] md:text-xs uppercase tracking-widest w-max mt-auto">Verify Credential ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flex justify-center items-center gap-6 mt-8 md:mt-12 z-30">
+    <button id="prev" class="w-12 h-12 rounded-full border border-white/20 bg-white/5 hover:bg-[#38bdf8] hover:border-[#38bdf8] hover:text-[#030712] flex items-center justify-center transition-all"><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
+    <button id="next" class="w-12 h-12 rounded-full border border-white/20 bg-white/5 hover:bg-[#38bdf8] hover:border-[#38bdf8] hover:text-[#030712] flex items-center justify-center transition-all"><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
+  </div>
+</section>
+
+<!-- PROJECTS (stacked folders) -->
+<section id="projects" class="pt-32 px-4 md:px-12 max-w-6xl mx-auto relative z-30" style="padding-bottom:10vh">
+  <div class="mb-16 md:mb-24 px-4 text-center md:text-left fade">
+    <h3 class="font-serif text-5xl md:text-7xl text-white tracking-tighter">Featured <span class="italic text-[#38bdf8]">Works</span></h3>
+    <p class="text-gray-400 mt-4 text-sm tracking-widest uppercase">Scroll to see selected projects</p>
+  </div>
+  <div id="project-list"></div>
+</section>
+
+<div class="w-full flex justify-center py-10 relative z-30 fade">
+  <a href="#archive" class="pop-glow text-[#38bdf8] text-sm font-bold tracking-[.2em] uppercase">Explore Full Archive ↗</a>
+</div>
+
+<!-- ARCHIVE -->
+<section id="archive" class="py-24 px-6 md:px-20 relative z-30 border-t border-white/5 bg-[#030712]">
+  <div class="max-w-5xl mx-auto">
+    <h3 class="font-serif text-4xl md:text-6xl text-white mb-16 text-center tracking-tighter fade">Project <span class="italic text-[#38bdf8]">Archive</span></h3>
+    <div class="flex flex-col border-t border-white/10 fade" id="archive-list"></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<footer id="contact" class="pt-32 pb-10 px-6 md:px-20 relative overflow-hidden z-40 bg-[#030712] border-t border-white/5 mt-10">
+  <div class="absolute bottom-[-150px] left-1/2 -translate-x-1/2 w-[60vw] h-[300px] bg-[#38bdf8]/10 blur-[150px] pointer-events-none rounded-full"></div>
+  <div class="max-w-4xl mx-auto text-center relative z-10 fade">
+    <h2 class="font-serif text-5xl md:text-[7rem] leading-[.9] mb-8 text-white tracking-tighter">LET'S BUILD <span class="italic text-[#38bdf8]">SOMETHING</span></h2>
+    <h3 class="text-[10px] md:text-sm font-bold tracking-[.2em] uppercase text-gray-400 mb-12 leading-relaxed">Your tagline goes here. <br class="hidden md:block">Tap the lock to unlock the mind behind it. 🔓</h3>
+    <div class="relative w-full flex justify-center z-50 mb-20">
+      <a href="mailto:you@example.com" class="group flex justify-center items-center">
+        <div class="text-6xl md:text-8xl text-white big-lock pointer-events-none"><span class="unlock-wrapper" style="width:1.2em;height:1.2em"><span class="icon-lock">🔒</span><span class="icon-unlock">🔓</span></span></div>
+      </a>
+    </div>
+    <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16">
+      <a href="https://mail.google.com/mail/?view=cm&fs=1&to=amitkaushal737@gmai;l.com" class="group pop-glow text-xl md:text-3xl text-gray-400 font-serif italic"><span class="unlock-wrapper text-lg md:text-2xl mr-3"><span class="icon-lock">🔒</span><span class="icon-unlock">🔓</span></span>Email</a>
+      <a href="https://www.linkedin.com/in/amit-kumar-782b73442?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" class="group pop-glow text-xl md:text-3xl text-gray-400 font-serif italic"><span class="unlock-wrapper text-lg md:text-2xl mr-3"><span class="icon-lock">🔒</span><span class="icon-unlock">🔓</span></span>LinkedIn</a>
+    </div>
+  </div>
+  <div class="text-center pt-10 mt-10 text-gray-500 text-[10px] uppercase tracking-[.2em] border-t border-white/10 relative z-10">© 2026 Amit Kumar •Performance Marketing • SEO • SMM •  Frontend Development • Your City, India</div>
+</footer>
+
+<script>
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* ====== EDIT YOUR CONTENT HERE ====== */
+ const skills = {
+  "Performance": [
+    "Performance Marketing",
+    "Meta Ads",
+    "Google Ads",
+    "Facebook Ads",
+    "Lead Generation",
+    "Conversion Tracking"
+  ],
+  "SEO": [
+    "On-Page SEO",
+    "Technical SEO",
+    "Off-Page SEO",
+    "Local SEO",
+    "Meta SEO",
+    "SEO Auditing",
+    "Indexing Optimization"
+  ],
+  "Frontend & Web": [
+    "Frontend Development",
+    "UI/UX Optimization",
+    "Web Design",
+    "Landing Page Optimization",
+    "HTML / CSS"
+  ],
+  "Data & Content": [
+    "Google Analytics (GA4)",
+    "Creative Strategy",
+    "Content Strategy",
+    "AI-Driven Content",
+    "Web Content Writing"
+  ]
+};
+  const projects = [
+    {title:"Google Ads Search Campaign",   label:"Google Ads Lead Gen Campaign", desc:"Planned and executed a Google Performance Max campaign for IICE Computer Education with a ₹300.00/day budget and ₹9,276.71 total spend, generating 58 conversions at an efficient CPA of ₹159.94 while acquiring 1,359 clicks and 16,768 impressions with an 8.10% CTR and ₹6.82 average CPC. ", tags:["Campaign Strategy","Lead Gen"], link:"", img: "images/googlead.jpeg"},
+    {title:"Meta Ads Lead Generation Campaign",   label:"Meta Ad Campaign", desc:"Planned and executed a Meta messaging campaign for IICE Computer Education with a ₹270.00/day budget and ₹3,956.88 total spend, generating 49 messaging conversations at an efficient cost of ₹80.75 per conversation while reaching 70,259 impressions .  ", tags:["Meta Ads","Funnel Strategies"], link:"", img: "images/metaad.jpeg"},
+    {title:"Conversion-Focused Landing Page Development",   label:"Landing Page Optimization", desc:"Designed and optimized a responsive landing page focused on user engagement, accessibility, CTA placement, and lead conversion performance.  ", tags:["Web Development","Seo"], link:"https://iiceshimla.in/courses/", img: "images/landingpage.jpeg"},
+    {title:"Frontend Development & SEO",   label:"IICEA Pvt. Ltd.", desc:"Developed the complete website frontend while implementing SEO, indexing improvements, responsive design optimization, and scalable site structure..  ", tags:["Web Development","Seo"], link:"https://iicea.in/", img: "images/website.jpeg"},
+  ];
+  const archive = [
+   {name:"IICE Computer Education,Shimla", tag:"Meta & Google Ads", link:"#"},
+    {name:"IICEA Private Limited", tag:"Full Stack SEO & Development", link:"#"},
+    {name:"IICE Computer Education, Shimla", tag:"SEO & Blog Writing", link:"#"},
+    {name:"Vedanshi Pixel India", tag:"ON-PAGE-SEO", link:"#"},
+    {name:"IICEA Chandigarh", tag:"On-Page SEO", link:"#"}
+    
+  ];
+  /* ==================================== */
+
+  // build skills
+  document.getElementById('skill-grid').innerHTML = Object.entries(skills).map(([h,l],i)=>`
+    <div class="bg-[#080c14] border border-white/5 rounded-3xl p-8 fade shadow-2xl" data-delay="${i*0.1}">
+      <h4 class="text-white font-serif text-2xl mb-6 border-b border-white/5 pb-4">${h}</h4>
+      <div class="flex flex-wrap gap-3">${l.map(s=>`<span class="skill-pill px-4 py-2 rounded-xl text-xs font-medium text-gray-300">${s}</span>`).join('')}</div>
+    </div>`).join('');
+
+  // build projects
+  document.getElementById('project-list').innerHTML = projects.map((p,i)=>`
+    <div class="project-wrapper" style="top:${12+i*6}vh;--z:${i+1}${i==projects.length-1?';margin-bottom:5vh':''}">
+      <div class="folder flex flex-col">
+        <div class="folder-head"><span class="text-[#38bdf8] font-serif italic text-lg mr-3">0${i+1}</span><span class="text-[10px] md:text-xs font-bold text-gray-400 uppercase tracking-[.2em] truncate">${p.label}</span></div>
+        <div class="p-6 md:p-12 flex flex-col ${i%2?'md:flex-row-reverse':'md:flex-row'} gap-10 items-center justify-between">
+          <div class="w-full md:w-1/2 flex flex-col z-10 relative">
+            <h4 class="font-medium text-3xl md:text-5xl text-white mb-6 tracking-tight">${p.title}</h4>
+            <p class="text-gray-400 text-sm md:text-base leading-relaxed mb-8">${p.desc}</p>
+            <div class="flex flex-wrap gap-2 mb-8">${p.tags.map(t=>`<span class="px-3 py-1.5 bg-white/5 border border-white/10 rounded-lg text-[10px] uppercase tracking-widest text-white">${t}</span>`).join('')}</div>
+            ${p.link?`<a href="${p.link}" target="_blank" class="text-[#38bdf8] pop-glow font-bold text-xs uppercase tracking-widest w-max">View Live Project ↗</a>`:''}
+          </div>
+         <div class="w-full md:w-1/2 h-auto min-h-[250px] rounded-xl overflow-hidden border border-white/10 shadow-2xl bg-black/40 flex items-center justify-center p-2">
+  ${p.img?`<img src="${p.img}" class="w-full h-auto max-h-[350px] object-contain rounded-lg hover:scale-105 transition-all duration-500">`:'Project screenshot'}
+</div>
+        </div>
+      </div>
+    </div>`).join('');
+
+  // build archive
+  document.getElementById('archive-list').innerHTML = archive.map((a,i)=>`
+    <a href="${a.link}" class="group flex flex-col md:flex-row justify-between items-start md:items-center py-6 border-b border-white/10 hover:bg-white/5 transition-colors px-4 rounded-lg">
+      <div class="flex items-center gap-6 w-full md:w-1/2"><span class="text-[#38bdf8] font-serif italic text-lg opacity-50 group-hover:opacity-100 transition-opacity">0${i+1}</span><h4 class="text-lg md:text-xl text-white font-medium group-hover:text-[#38bdf8] transition-colors">${a.name}</h4></div>
+      <div class="mt-4 md:mt-0 w-full md:w-1/3"><span class="text-[10px] text-gray-400 border border-gray-600 px-2 py-1 rounded-md uppercase">${a.tag}</span></div>
+    </a>`).join('');
+
+  // tilt (desktop only)
+  if (innerWidth > 768) VanillaTilt.init(document.querySelectorAll('.tilt'),{max:3,speed:400,glare:true,"max-glare":.2});
+
+  // hero intro
+  gsap.timeline()
+    .fromTo('.hero-tagline',{filter:'blur(10px)',opacity:0,x:-20},{filter:'blur(0px)',opacity:1,x:0,duration:1,ease:'power3.out',delay:.2})
+    .fromTo('.hero-title',{filter:'blur(20px)',opacity:0,scale:1.1},{filter:'blur(0px)',opacity:1,scale:1,duration:1.5,ease:'expo.out'},'-=.5')
+    .fromTo('.hero-desc',{filter:'blur(10px)',opacity:0,y:20},{filter:'blur(0px)',opacity:1,y:0,duration:1},'-=1')
+    .fromTo('.hero-btn',{opacity:0,y:10},{opacity:1,y:0,duration:.8},'-=.5')
+    .fromTo('.hero-img',{rotationX:45,opacity:0,y:100,transformPerspective:1000},{rotationX:0,opacity:1,y:0,duration:1.5,ease:'power4.out'},'-=1.2')
+    .to('.hero-nav',{opacity:1,duration:1},'-=1');
+
+  // key cursor in footer (desktop)
+  if (innerWidth > 768) {
+    const key = document.querySelector('.cursor-key'), foot = document.getElementById('contact');
+    addEventListener('mousemove', e => { key.style.left = e.clientX+'px'; key.style.top = e.clientY+'px'; });
+    foot.addEventListener('mouseenter', () => { key.style.opacity = 1; key.style.scale = 1; foot.querySelectorAll('*').forEach(c => c.style.cursor='none'); foot.style.cursor='none'; });
+    foot.addEventListener('mouseleave', () => { key.style.opacity = 0; key.style.scale = .5; foot.querySelectorAll('*').forEach(c => c.style.cursor=''); foot.style.cursor='auto'; });
+  }
+
+  // nav background
+  const nav = document.querySelector('.glass-nav');
+  addEventListener('scroll', () => nav.style.background = scrollY > 50 ? 'rgba(3,7,18,.9)' : 'rgba(3,7,18,.7)');
+
+  // scroll fade-up
+  gsap.utils.toArray('.fade').forEach(el => gsap.fromTo(el,{autoAlpha:0,y:50},{duration:1,autoAlpha:1,y:0,ease:'power3.out',delay:parseFloat(el.dataset.delay||0),scrollTrigger:{trigger:el,start:'top 85%'}}));
+
+  // 3D certificate slider
+  let first = true;
+  const c1 = document.getElementById('cert1'), c2 = document.getElementById('cert2');
+  const off = innerWidth < 768 ? '8%' : '15%';
+  gsap.set([c1,c2],{transformPerspective:1500});
+  function slide(){
+    gsap.to(c1, first ? {x:'0%',scale:1,rotationY:0,filter:'brightness(1)',opacity:1,zIndex:20,duration:.8,ease:'power3.inOut'} : {x:'-'+off,scale:.9,rotationY:15,filter:'brightness(.3)',opacity:.6,zIndex:10,duration:.8,ease:'power3.inOut'});
+    gsap.to(c2, first ? {x:off,scale:.9,rotationY:-15,filter:'brightness(.3)',opacity:.6,zIndex:10,duration:.8,ease:'power3.inOut'} : {x:'0%',scale:1,rotationY:0,filter:'brightness(1)',opacity:1,zIndex:20,duration:.8,ease:'power3.inOut'});
+  }
+  slide();
+  const flip = () => { first = !first; slide(); };
+  document.getElementById('next').onclick = flip;
+  document.getElementById('prev').onclick = flip;
+  let sx = 0; const box = document.getElementById('cert-stack');
+  box.addEventListener('touchstart', e => sx = e.changedTouches[0].screenX, {passive:true});
+  box.addEventListener('touchend', e => { if (Math.abs(e.changedTouches[0].screenX - sx) > 50) flip(); });
+
+  // folder stack animation
+  const cards = gsap.utils.toArray('.project-wrapper');
+  cards.forEach((card,i) => {
+    gsap.from(card,{y:150,opacity:0,ease:'power3.out',scrollTrigger:{trigger:card,start:'top 95%',end:'top 75%',scrub:.5}});
+    if (i < cards.length-1) gsap.to(card,{rotationX:-8,filter:'brightness(.4)',transformOrigin:'bottom center',scrollTrigger:{trigger:cards[i+1],start:'top 85%',end:'top 15%',scrub:true}});
+  });
+</script>
+</body>
+</html>
